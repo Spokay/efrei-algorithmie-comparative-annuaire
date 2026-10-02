@@ -37,12 +37,12 @@ int main(void)
     verifier("annuaire sequentiel vide",
              seq_search("alice@mail.com"), false);
     verifier("table de hachage vide",
-             hash_search("alice@mail.com"), false);
+             hash_search("alice@mail.com", DJB2), false);
 
     for (int i = 0; i < 5; i++)
     {
         seq_insert(utilisateurs[i], i + 1);
-        hash_insert(utilisateurs[i], i + 1);
+        hash_insert(utilisateurs[i], i + 1, DJB2);
     }
 
     for (int i = 0; i < 5; i++)
@@ -54,7 +54,7 @@ int main(void)
         snprintf(titre_hash, sizeof(titre_hash),
                  "hachage trouve %s", utilisateurs[i]);
         verifier(titre_seq, seq_search(utilisateurs[i]), true);
-        verifier(titre_hash, hash_search(utilisateurs[i]), true);
+        verifier(titre_hash, hash_search(utilisateurs[i], DJB2), true);
     }
 
     for (int i = 0; i < 2; i++)
@@ -66,13 +66,13 @@ int main(void)
         snprintf(titre_hash, sizeof(titre_hash),
                  "hachage absent %s", absentes[i]);
         verifier(titre_seq, seq_search(absentes[i]), false);
-        verifier(titre_hash, hash_search(absentes[i]), false);
+        verifier(titre_hash, hash_search(absentes[i], DJB2), false);
     }
 
     verifier("sequentiel respecte la casse",
              seq_search("Alice@mail.com"), false);
     verifier("hachage respecte la casse",
-             hash_search("Alice@mail.com"), false);
+             hash_search("Alice@mail.com", DJB2), false);
 
     seq_free();
     hash_free();

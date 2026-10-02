@@ -4,14 +4,13 @@
 
 #include "hashage.h"
 
-#include <stddef.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
 static Node *table[TAILLE_TABLE] = { NULL };
 
-static unsigned long hachage(const char *email) {
+static unsigned long hash_djb2(const char *email) {
     unsigned long h = 5381;
     int c;
     while ((c = (unsigned char)*email++))
@@ -19,13 +18,40 @@ static unsigned long hachage(const char *email) {
     return h;
 }
 
-unsigned long hash_email(const char* email) {
-    return hachage(email) % TAILLE_TABLE;
+static unsigned long hash_fnv1a(const char *email) {
+    unsigned long h = 2166136261;
+    int c;
+    while ((c = (unsigned char)*email++))
+        h = (h ^ c) * 16777619;
+    return h;
+}
+
+static unsigned long hash_somme_octets(const char *email) {
+    unsigned long h = 0;
+    int c;
+    while ((c = (unsigned char)*email++))
+        h += c;
+    return h;
 }
 
 
-void hash_insert(const char *email, const int id) {
-    const unsigned long i = hachage(email) % TAILLE_TABLE;
+
+unsigned long hash_email(const char* email, const enum HashType hashType) {
+    switch (hashType) {
+        case DJB2:
+            return hash_djb2(email);
+        case SOMME_OCTETS:
+            return hash_somme_octets(email);
+        case FNV_1A:
+            return hash_fnv1a(email);
+        default:
+            exit(EXIT_FAILURE);
+    }
+}
+
+
+void hash_insert(const char *email, const int id, const enum HashType hashType) {
+    const unsigned long i = hash_email(email, hashType) % TAILLE_TABLE;
     Node *n = malloc(sizeof(Node));
     if (n == NULL) { perror("malloc"); exit(EXIT_FAILURE); }
     snprintf(n->email, EMAIL_MAX, "%s", email);
@@ -34,8 +60,8 @@ void hash_insert(const char *email, const int id) {
     table[i] = n;
 }
 
-bool hash_search(const char *email) {
-    const unsigned long i = hachage(email) % TAILLE_TABLE;
+bool hash_search(const char *email, const enum HashType hashType) {
+    const unsigned long i = hash_email(email, hashType) % TAILLE_TABLE;
     for (const Node *n = table[i]; n != NULL; n = n->next)
         if (strcmp(n->email, email) == 0)
             return true;

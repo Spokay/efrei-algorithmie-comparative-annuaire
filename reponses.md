@@ -193,7 +193,7 @@ Ce n'est pas un défaut de la fonction : la table doit prévoir une méthode de 
 | Une adresse absente | `false` | `false` |
 | Sur annuaire vide | `false` | `false` |
 
-### Question 3
+### Question 10
 
 Avec l'insertion correcte :
 
@@ -203,8 +203,42 @@ les trois adresses `user4@mail.com`, `user130@mail.com` et
 Si l'on inverse volontairement ces deux lignes, `table[i] = n` est exécutée
 avant que `n->next` soit initialisé. La chaîne précédente est alors perdue.
 
-### Question 4
+### Question 11
 
 Dans `hash_free`, il faut mémoriser `n->next` avant `free(n)` dans une variable temporaire :
 Après `free(n)`, lire `n->next` utiliserait une
 zone mémoire libérée.
+
+## Exercice A1
+
+### Résultats du banc de distribution
+
+| Fonction |  Buckets occupées | Chaîne la plus longue | Comparaisons (réussie) | Comparaisons (échec) |
+|---|------------------:|---:|---:|---:|
+| djb2 |               921 | 33 | 9,46 | 17,38 |
+| FNV-1a |              1024 | 17 | 5,80 | 9,60 |
+| Somme des octets |                91 | 615 | 202,71 | 0,00 |
+
+### Question 12
+
+La fonction **somme des octets** est la meilleure sur une recherche
+infructueuse dans ce jeu de données, avec `0,00` comparaison en moyenne,
+mais elle est de très loin la pire sur une recherche réussie, avec `202,71`
+comparaisons en moyenne. Les adresses `absent<i>@mail.com` tombent ici dans
+des buckets qui ne contiennent aucune adresse insérée, alors que les
+10 000 adresses `user<i>@mail.com` sont très mal réparties.
+
+Il faut donc choisir l'indicateur en fonction de plusieurs facteurs, un seul ne peut pas suffire.
+
+### Question 13
+
+Pour une recherche réussie dans une structure séquentielle contenant
+10 000 adresses, le coût moyen est :
+
+```text
+(1 + 2 + ... + 10000) / 10000 = 5000,5 comparaisons
+```
+
+La meilleure fonction mesurée est FNV-1a, avec `5,80` comparaisons en moyenne.
+Elle apporte donc un gain d'environ `5000,5 / 5,80 = 862,2` fois par rapport
+à la recherche séquentielle.
