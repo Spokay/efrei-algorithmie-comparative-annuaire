@@ -36,86 +36,87 @@ Le premier annuaire contient peu de données et est consulté rarement, tandis q
 
 ## Exercice 2
 
-taille = 1
-capacite = 16
-taille = 2
-capacite = 16
-taille = 3
-capacite = 16
-taille = 4
-capacite = 16
-taille = 5
-capacite = 16
-taille = 6
-capacite = 16
-taille = 7
-capacite = 16
-taille = 8
-capacite = 16
-taille = 9
-capacite = 16
-taille = 10
-capacite = 16
-taille = 11
-capacite = 16
-taille = 12
-capacite = 16
-taille = 13
-capacite = 16
-taille = 14
-capacite = 16
-taille = 15
-capacite = 16
-taille = 16
-capacite = 16
-taille = 17
-capacite = 32
-taille = 18
-capacite = 32
-taille = 19
-capacite = 32
-taille = 20
-capacite = 32
-taille = 21
-capacite = 32
-taille = 22
-capacite = 32
-taille = 23
-capacite = 32
-taille = 24
-capacite = 32
-taille = 25
-capacite = 32
-taille = 26
-capacite = 32
-taille = 27
-capacite = 32
-taille = 28
-capacite = 32
-taille = 29
-capacite = 32
-taille = 30
-capacite = 32
-taille = 31
-capacite = 32
-taille = 32
-capacite = 32
-taille = 33
-capacite = 64
-taille = 34
-capacite = 64
-taille = 35
-capacite = 64
-taille = 36
-capacite = 64
-taille = 37
-capacite = 64
-taille = 38
-capacite = 64
-taille = 39
-capacite = 64
-taille = 40
-capacite = 64
+```text
+taille = 1   capacite = 16
+
+taille = 2   capacite = 16
+
+taille = 3   capacite = 16
+
+taille = 4   capacite = 16
+
+taille = 5   capacite = 16
+
+taille = 6   capacite = 16
+
+taille = 7   capacite = 16
+
+taille = 8   capacite = 16
+
+taille = 9   capacite = 16
+
+taille = 10   capacite = 16
+
+taille = 11   capacite = 16
+
+taille = 12   capacite = 16
+
+taille = 13   capacite = 16
+
+taille = 14   capacite = 16
+
+taille = 15   capacite = 16
+
+taille = 16   capacite = 16
+
+taille = 17   capacite = 32
+
+taille = 18   capacite = 32
+
+taille = 19   capacite = 32
+
+taille = 20   capacite = 32
+
+taille = 21   capacite = 32
+
+taille = 22   capacite = 32
+
+taille = 23   capacite = 32
+
+taille = 24   capacite = 32
+
+taille = 25   capacite = 32
+
+taille = 26   capacite = 32
+
+taille = 27   capacite = 32
+
+taille = 28   capacite = 32
+
+taille = 29   capacite = 32
+
+taille = 30   capacite = 32
+
+taille = 31   capacite = 32
+
+taille = 32   capacite = 32
+
+taille = 33   capacite = 64
+
+taille = 34   capacite = 64
+
+taille = 35   capacite = 64
+
+taille = 36   capacite = 64
+
+taille = 37   capacite = 64
+
+taille = 38   capacite = 64
+
+taille = 39   capacite = 64
+
+taille = 40   capacite = 64
+```
 
 
 ### Question 4 : combien de fois realloc a-t-il été appelé pour ces 40 insertions ? Et pour 1000 insertions ?
@@ -183,3 +184,27 @@ comportement indéfini.
 
 Oui, deux adresses différentes peuvent donner le même indice, c'est une collision.
 Ce n'est pas un défaut de la fonction : la table doit prévoir une méthode de résolution des collisions comme une liste chainée.
+
+## Exercice 5
+
+| Recherche | Attendu | Obtenu |
+|---|---|---|
+| Une adresse présente | `true` | `true` |
+| Une adresse absente | `false` | `false` |
+| Sur annuaire vide | `false` | `false` |
+
+### Question 3
+
+Avec l'insertion correcte :
+
+les trois adresses `user4@mail.com`, `user130@mail.com` et
+`user211@mail.com` vont dans la même alvéole et sont toutes retrouvées.
+
+Si l'on inverse volontairement ces deux lignes, `table[i] = n` est exécutée
+avant que `n->next` soit initialisé. La chaîne précédente est alors perdue.
+
+### Question 4
+
+Dans `hash_free`, il faut mémoriser `n->next` avant `free(n)` dans une variable temporaire :
+Après `free(n)`, lire `n->next` utiliserait une
+zone mémoire libérée.

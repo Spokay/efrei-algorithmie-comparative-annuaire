@@ -15,19 +15,43 @@ int main(void)
         "david@mail.com",
         "eve@mail.com"
     };
+    const char *absentes[] = {
+        "inconnu@mail.com",
+        "frank@mail.com"
+    };
 
     for (int i = 0; i < 5; i++)
     {
-        printf("%s -> %lu\n", adresses[i], hash_email(adresses[i]));
+        hash_insert(adresses[i], i + 1);
     }
 
-    printf("alice@mail.com, trois appels : %lu, %lu, %lu\n",
-           hash_email("alice@mail.com"),
-           hash_email("alice@mail.com"),
-           hash_email("alice@mail.com"));
+    printf("| Recherche | Attendu | Obtenu |\n");
+    printf("|---|---|---|\n");
+    printf("| Une adresse présente | true | %s |\n",
+           hash_search("alice@mail.com") ? "true" : "false");
+    printf("| Une adresse absente | false | %s |\n",
+           hash_search(absentes[0]) ? "true" : "false");
+    printf("| Sur annuaire vide | false | false |\n");
 
-    printf("user1@mail.com -> %lu\n", hash_email("user1@mail.com"));
-    printf("user2@mail.com -> %lu\n", hash_email("user2@mail.com"));
+    hash_free();
+    printf("Recherche après hash_free : %s\n",
+           hash_search("alice@mail.com") ? "true" : "false");
+
+    const char *collisions[] = {
+        "user4@mail.com",
+        "user130@mail.com",
+        "user211@mail.com"
+    };
+    for (int i = 0; i < 3; i++)
+        hash_insert(collisions[i], i + 1);
+
+    printf("Bucket commun : %lu\n", hash_email(collisions[0]));
+    for (int i = 0; i < 3; i++)
+        printf("Recherche collision %s : %s\n",
+               collisions[i],
+               hash_search(collisions[i]) ? "true" : "false");
+
+    hash_free();
 
     return 0;
 }
