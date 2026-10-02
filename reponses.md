@@ -142,3 +142,44 @@ Réponse :
 - Cas favorable -> 1 comparaison
 - Cas moyen -> n / 2
 - Cas défavorable -> n
+
+## Exercice 4
+
+Les indices obtenus sont :
+
+| Adresse | Indice |
+|---|---:|
+| `alice@mail.com` | 19 |
+| `bob@mail.com` | 104 |
+| `carole@mail.com` | 747 |
+| `david@mail.com` | 189 |
+| `eve@mail.com` | 181 |
+
+### Question 6
+
+Les trois appels pour `alice@mail.com` donnent le même indice : `19`.
+Ca permet qu'une même adresse permette de retrouver toujours
+la même case dans la table de hachage. 
+
+### Question 7
+
+Les indices de `user1@mail.com` et `user2@mail.com` sont respectivement `453`
+et `742`. Ils ne sont donc pas voisins. Une fonction de hachage cherche à
+répartir les adresses, et des adresses proches ne produisent pas forcément des
+indices proches.
+
+### Question 8
+
+Remplacer le type de retour par `int` ne change pas les
+indices affichés
+
+Les deux valeurs qui peuvent changer de comportement sont `david@mail.com` et
+`eve@mail.com` si l'on convertit en `int`, leur hachage vaut
+`14273388914041618621` et `15086121562315505845`, des valeurs supérieures à
+la capacité d'un `int` signé. Utiliser cette valeur pourrait provoquer un
+comportement indéfini.
+
+### Question 9
+
+Oui, deux adresses différentes peuvent donner le même indice, c'est une collision.
+Ce n'est pas un défaut de la fonction : la table doit prévoir une méthode de résolution des collisions comme une liste chainée.

@@ -3,50 +3,31 @@
 //
 
 #include "annuaire.h"
-#include "sequentiel.h"
+#include "hashage.h"
 #include <stdio.h>
 
 int main(void)
 {
-    const char *utilisateurs[] = {
+    const char *adresses[] = {
         "alice@mail.com",
         "bob@mail.com",
-        "carol@mail.com",
+        "carole@mail.com",
         "david@mail.com",
         "eve@mail.com"
     };
 
     for (int i = 0; i < 5; i++)
     {
-        seq_insert(utilisateurs[i], i + 1);
+        printf("%s -> %lu\n", adresses[i], hash_email(adresses[i]));
     }
 
-    const char *recherches_reussies[] = {
-        "alice@mail.com",
-        "carol@mail.com",
-        "eve@mail.com"
-    };
-    for (int i = 0; i < 3; i++)
-    {
-        printf("Recherche de %s : %s\n",
-               recherches_reussies[i],
-               seq_search(recherches_reussies[i]) ? "true" : "false");
-    }
+    printf("alice@mail.com, trois appels : %lu, %lu, %lu\n",
+           hash_email("alice@mail.com"),
+           hash_email("alice@mail.com"),
+           hash_email("alice@mail.com"));
 
-    const char *recherches_echouees[] = {
-        "inconnu@mail.com",
-        "frank@mail.com"
-    };
-    for (int i = 0; i < 2; i++)
-    {
-        printf("Recherche de %s : %s\n",
-               recherches_echouees[i],
-               seq_search(recherches_echouees[i]) ? "true" : "false");
-    }
-
-    seq_free();
-    printf("Recherche dans un annuaire vide : %s\n",
-           seq_search("alice@mail.com") ? "true" : "false");
+    printf("user1@mail.com -> %lu\n", hash_email("user1@mail.com"));
+    printf("user2@mail.com -> %lu\n", hash_email("user2@mail.com"));
 
     return 0;
 }
