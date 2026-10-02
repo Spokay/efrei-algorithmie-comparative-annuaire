@@ -34,4 +34,97 @@ points de la grille qui les distinguent ?
 Réponse : les deux points qui les distinguent sont le volume et la fréquence.
 Le premier annuaire contient peu de données et est consulté rarement, tandis que le second contient beaucoup de données et est consulté très fréquemment.
 
+## Exercice 2
+
+taille = 1
+capacite = 16
+taille = 2
+capacite = 16
+taille = 3
+capacite = 16
+taille = 4
+capacite = 16
+taille = 5
+capacite = 16
+taille = 6
+capacite = 16
+taille = 7
+capacite = 16
+taille = 8
+capacite = 16
+taille = 9
+capacite = 16
+taille = 10
+capacite = 16
+taille = 11
+capacite = 16
+taille = 12
+capacite = 16
+taille = 13
+capacite = 16
+taille = 14
+capacite = 16
+taille = 15
+capacite = 16
+taille = 16
+capacite = 16
+taille = 17
+capacite = 32
+taille = 18
+capacite = 32
+taille = 19
+capacite = 32
+taille = 20
+capacite = 32
+taille = 21
+capacite = 32
+taille = 22
+capacite = 32
+taille = 23
+capacite = 32
+taille = 24
+capacite = 32
+taille = 25
+capacite = 32
+taille = 26
+capacite = 32
+taille = 27
+capacite = 32
+taille = 28
+capacite = 32
+taille = 29
+capacite = 32
+taille = 30
+capacite = 32
+taille = 31
+capacite = 32
+taille = 32
+capacite = 32
+taille = 33
+capacite = 64
+taille = 34
+capacite = 64
+taille = 35
+capacite = 64
+taille = 36
+capacite = 64
+taille = 37
+capacite = 64
+taille = 38
+capacite = 64
+taille = 39
+capacite = 64
+taille = 40
+capacite = 64
+
+
+### Question 4 : combien de fois realloc a-t-il été appelé pour ces 40 insertions ? Et pour 1000 insertions ?
+
+Réponse : `realloc` a été appelé 3 fois pour 40 insertions.
+
+La capacité double à chaque fois que le tableau est plein. Donc pour 1000 insertions,
+on passe de 16, 32, 64, 128, 256, 512 et 1024. Pour 1000 insertions realloc est donc appelé 7 fois. 
+C'est logarithmique par rapport au
+nombre d'insertions.
+
 
