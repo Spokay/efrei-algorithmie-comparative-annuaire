@@ -121,10 +121,24 @@ capacite = 64
 ### Question 4 : combien de fois realloc a-t-il été appelé pour ces 40 insertions ? Et pour 1000 insertions ?
 
 Réponse : `realloc` a été appelé 3 fois pour 40 insertions.
-
 La capacité double à chaque fois que le tableau est plein. Donc pour 1000 insertions,
 on passe de 16, 32, 64, 128, 256, 512 et 1024. Pour 1000 insertions realloc est donc appelé 7 fois. 
 C'est logarithmique par rapport au
 nombre d'insertions.
 
+## Exercice 3
 
+| Recherche | Attendu | Obtenu |
+|---|---|---|
+| Une adresse présente | `true` | `true` |
+| Une adresse absente | `false` | `false` |
+| Sur annuaire vide | `false` | `false` |
+
+### Question 5 : combien de comparaisons seq_search effectue-t-elle sur un annuaire de n utilisateurs, dans
+le cas favorable, dans le cas moyen, puis dans le cas défavorable ? Décrivez à chaque fois quelle donnée
+produit ce cas.
+
+Réponse : 
+- Cas favorable -> 1 comparaison
+- Cas moyen -> n / 2
+- Cas défavorable -> n
